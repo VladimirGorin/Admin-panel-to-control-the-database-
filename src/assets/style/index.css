@@ -1,0 +1,44 @@
+.user-block {
+  background-color: #f0f0f0;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.user-block .form-group {
+  margin-bottom: 15px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination li.active a {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px !important;
+}
