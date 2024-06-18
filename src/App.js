@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import UsersTable from "./components/UsersTable";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import Main from "./components/Main";
 import MissionsTable from "./components/MissionsTable";
@@ -24,7 +24,9 @@ function App() {
   const isDevMode = false;
   const port = 8000;
 
-  const api = isDevMode ? `http://localhost:${port}` : "https://api.pushcoin.world";
+  const api = isDevMode
+    ? `http://localhost:${port}`
+    : "https://api.pushcoin.world";
 
   const handleLogin = (username, password) => {
     setCookie("isAuth", { status: true, username, password });
@@ -33,7 +35,10 @@ function App() {
 
   const handleVerifyLogin = async (username, password) => {
     try {
-      const response = await axios.post(`${api}/admin-verify-auth`, { username, password });
+      const response = await axios.post(`${api}/admin-verify-auth`, {
+        username,
+        password,
+      });
       return response.data.authStatus;
     } catch (error) {
       return false;
@@ -44,7 +49,10 @@ function App() {
     if (!isEmpty(cookies)) {
       const isAuthData = { ...cookies.isAuth };
       if (isAuthData.status) {
-        const verifyLoginStatus = await handleVerifyLogin(isAuthData.username, isAuthData.password);
+        const verifyLoginStatus = await handleVerifyLogin(
+          isAuthData.username,
+          isAuthData.password
+        );
         if (verifyLoginStatus) {
           setIsLoggedIn(true);
         } else {
@@ -76,25 +84,55 @@ function App() {
 
   useEffect(() => {
     handleGetUsers();
-    handleGetMissions()
+    handleGetMissions();
   }, [isLoggedIn]);
 
   return (
     <div className="wrapper">
       <Routes>
-        <Route path="/" element={isLoggedIn ? <Main /> : <LoginForm onLogin={handleLogin} verifyLogin={handleVerifyLogin} />} />
+        <Route path={"/"} element={< Navigate to={"/velarsoftware"} />} />
+
+        <Route
+          path="/velarsoftware"
+          element={
+            isLoggedIn ? (
+              <Main />
+            ) : (
+              <LoginForm
+                onLogin={handleLogin}
+                verifyLogin={handleVerifyLogin}
+              />
+            )
+          }
+        />
         <Route
           path="/missions-table"
           element={
-            isLoggedIn ? <MissionsTable missions={missions} setMissions={setMissions} api={api} />
-              : <LoginForm onLogin={handleLogin} verifyLogin={handleVerifyLogin} />
+            isLoggedIn ? (
+              <MissionsTable
+                missions={missions}
+                setMissions={setMissions}
+                api={api}
+              />
+            ) : (
+              <LoginForm
+                onLogin={handleLogin}
+                verifyLogin={handleVerifyLogin}
+              />
+            )
           }
         />
         <Route
           path="/users-table"
           element={
-            isLoggedIn ? <UsersTable users={users} setUsers={setUsers} api={api} />
-              : <LoginForm onLogin={handleLogin} verifyLogin={handleVerifyLogin} />
+            isLoggedIn ? (
+              <UsersTable users={users} setUsers={setUsers} api={api} />
+            ) : (
+              <LoginForm
+                onLogin={handleLogin}
+                verifyLogin={handleVerifyLogin}
+              />
+            )
           }
         />
       </Routes>
