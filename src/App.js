@@ -21,7 +21,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [missions, setMissions] = useState([]);
 
-  const isDevMode = true;
+  const isDevMode = false;
   const port = 8000;
 
   const api = isDevMode ? `http://localhost:${port}` : "https://api.pushcoin.world";
