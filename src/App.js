@@ -11,17 +11,13 @@ function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-const ProtectedRoute = ({ isLoggedIn, children }) => {
-  return isLoggedIn ? children : <Navigate to="/" replace />;
-};
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cookies, setCookie] = useCookies();
   const [users, setUsers] = useState([]);
   const [missions, setMissions] = useState([]);
 
-  const isDevMode = false;
+  const isDevMode = true;
   const port = 8000;
 
   const api = isDevMode

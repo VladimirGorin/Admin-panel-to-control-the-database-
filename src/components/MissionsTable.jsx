@@ -26,7 +26,13 @@ import axios from "axios";
 const MissionsTable = (props) => {
   const [editingMissionId, setEditingMissionId] = useState(null);
   const [editedMission, setEditedMission] = useState(null);
-  const [newMission, setNewMission] = useState({ category: "", text: "", icon: "", link: "", points: "" });
+  const [newMission, setNewMission] = useState({
+    category: "",
+    text: "",
+    icon: "",
+    link: "",
+    points: "",
+  });
   const [addMissionDialogOpen, setAddMissionDialogOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -42,7 +48,9 @@ const MissionsTable = (props) => {
 
   const handleEditClick = (missionId) => {
     setEditingMissionId(missionId);
-    const missionToEdit = props.missions.find((mission) => mission.id === missionId);
+    const missionToEdit = props.missions.find(
+      (mission) => mission.id === missionId
+    );
     setEditedMission(missionToEdit);
   };
 
@@ -69,7 +77,9 @@ const MissionsTable = (props) => {
   const handleDeleteMission = async (missionId) => {
     try {
       await axios.post(`${props.api}/delete-mission`, { id: missionId });
-      props.setMissions(props.missions.filter(mission => mission.id !== missionId));
+      props.setMissions(
+        props.missions.filter((mission) => mission.id !== missionId)
+      );
     } catch (error) {
       console.error(error);
       alert(`Error while trying to delete mission: ${error}`);
@@ -122,35 +132,41 @@ const MissionsTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.missions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((mission) => (
-              <TableRow key={mission.id}>
-                <TableCell component="th" scope="row">
-                  {mission.id}
-                </TableCell>
-                <TableCell align="right">{mission.category}</TableCell>
-                <TableCell align="right">{mission.text}</TableCell>
-                <TableCell align="right">
-                  <img src={mission.icon} alt="icon" style={{ width: '30px', height: '30px' }} />
-                </TableCell>
-                <TableCell align="right">{mission.link}</TableCell>
-                <TableCell align="right">{mission.points}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    variant="contained"
-                    onClick={() => handleEditClick(mission.id)}
-                    style={{ marginRight: '8px' }}
-                  >
-                    Edit
-                  </Button>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleDeleteMission(mission.id)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {props.missions
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((mission) => (
+                <TableRow key={mission.id}>
+                  <TableCell component="th" scope="row">
+                    {mission.id}
+                  </TableCell>
+                  <TableCell align="right">{mission.category}</TableCell>
+                  <TableCell align="right">{mission.text}</TableCell>
+                  <TableCell align="right">
+                    <img
+                      src={mission.icon}
+                      alt="icon"
+                      style={{ width: "30px", height: "30px" }}
+                    />
+                  </TableCell>
+                  <TableCell align="right">{mission.link}</TableCell>
+                  <TableCell align="right">{mission.points}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      onClick={() => handleEditClick(mission.id)}
+                      style={{ marginRight: "8px" }}
+                    >
+                      Edit
+                    </Button>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleDeleteMission(mission.id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -198,7 +214,11 @@ const MissionsTable = (props) => {
           <TextField
             label="Points"
             value={editedMission?.points || ""}
-            onChange={(e) => handleFieldChange("points", parseInt(e.target.value, 10) || 0)}
+            onChange={(e) =>
+              handleFieldChange("points", parseInt(e.target.value, 10) || 0)
+            }
+
+            inputProps={ { min: 0 }}
             fullWidth
             type="number"
           />
@@ -221,31 +241,44 @@ const MissionsTable = (props) => {
           <TextField
             label="Category"
             value={newMission.category}
-            onChange={(e) => setNewMission({ ...newMission, category: e.target.value })}
+            onChange={(e) =>
+              setNewMission({ ...newMission, category: e.target.value })
+            }
             fullWidth
           />
           <TextField
             label="Text"
             value={newMission.text}
-            onChange={(e) => setNewMission({ ...newMission, text: e.target.value })}
+            onChange={(e) =>
+              setNewMission({ ...newMission, text: e.target.value })
+            }
             fullWidth
           />
           <TextField
             label="Icon"
             value={newMission.icon}
-            onChange={(e) => setNewMission({ ...newMission, icon: e.target.value })}
+            onChange={(e) =>
+              setNewMission({ ...newMission, icon: e.target.value })
+            }
             fullWidth
           />
           <TextField
             label="Link"
             value={newMission.link}
-            onChange={(e) => setNewMission({ ...newMission, link: e.target.value })}
+            onChange={(e) =>
+              setNewMission({ ...newMission, link: e.target.value })
+            }
             fullWidth
           />
           <TextField
             label="Points"
             value={newMission.points}
-            onChange={(e) => setNewMission({ ...newMission, points: parseInt(e.target.value, 10) || 0 })}
+            onChange={(e) =>
+              setNewMission({
+                ...newMission,
+                points: parseInt(e.target.value, 10) || 0,
+              })
+            }
             fullWidth
             type="number"
           />
@@ -257,7 +290,11 @@ const MissionsTable = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Button onClick={handleOpenAddMissionDialog} variant="contained" style={{ marginTop: '16px' }}>
+      <Button
+        onClick={handleOpenAddMissionDialog}
+        variant="contained"
+        style={{ marginTop: "16px" }}
+      >
         Add New Mission
       </Button>
     </>
